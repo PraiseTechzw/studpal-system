@@ -1,7 +1,14 @@
 .tags-management-grid {
   display: grid;
-  grid-template-columns: 1fr 300px;
+  grid-template-columns: 1fr 340px;
   gap: 32px;
+}
+
+.flex-center-p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
 }
 
 .search-tags-bar {
@@ -50,6 +57,23 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 24px;
+}
+
+.tag-delete-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-tertiary);
+  transition: all 0.2s ease;
+}
+
+.tag-delete-btn:hover {
+  background-color: #fef2f2;
+  color: var(--accent-red);
 }
 
 .tag-color-indicator {
@@ -121,7 +145,131 @@
   font-size: 18px;
   font-weight: 800;
   color: var(--text-primary);
-  margin-bottom: 8px;
+  margin-bottom: 24px;
+}
+
+/* Modal Overlay & Card consistency */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-card {
+  background: white;
+  border-radius: var(--radius-2xl);
+  padding: 40px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: var(--shadow-premium);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.modal-card h2 {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.modal-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input-group label {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.input-group input {
+  padding: 14px;
+  background-color: #f1f5f9;
+  border-radius: 14px;
+  border: 1.5px solid transparent;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  width: 100%;
+  outline: none;
+}
+
+.input-group input:focus {
+  background-color: white;
+  border-color: var(--accent-teal);
+}
+
+.color-presets {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.color-preset {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  cursor: pointer;
+  border: 3px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.color-preset:hover {
+  transform: scale(1.1);
+}
+
+.color-preset.active {
+  border-color: white;
+  box-shadow: 0 0 0 2px var(--text-primary);
+  transform: scale(1.1);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 16px;
+}
+
+.btn-cancel {
+  flex: 1;
+  padding: 14px;
+  background-color: #f1f5f9;
+  color: var(--text-secondary);
+  border-radius: 14px;
+  font-weight: 800;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-save {
+  flex: 2;
+  padding: 14px;
+  background-color: var(--accent-teal);
+  color: white;
+  border-radius: 14px;
+  font-weight: 800;
+  box-shadow: 0 10px 20px -5px rgba(13, 148, 136, 0.3);
+  border: none;
+  cursor: pointer;
 }
 
 .insight-stat {

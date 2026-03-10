@@ -233,7 +233,49 @@
   transition: all 0.2s ease;
 }
 
-.cta-secondary-btn:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
+.community-cta-card:hover {
+  transform: translateY(-4px);
+}
+
+.file-upload-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 32px;
+  background-color: #f8fafc;
+  border: 2px dashed #e2e8f0;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-tertiary);
+  text-align: center;
+}
+
+.file-upload-zone:hover {
+  border-color: var(--accent-teal);
+  background-color: #f0fdfa;
+  color: var(--accent-teal);
+}
+
+.file-upload-zone.has-file {
+  border-color: var(--accent-teal);
+  background-color: #f0fdfa;
+  color: var(--accent-teal);
+  border-style: solid;
+}
+
+.file-upload-zone span {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.empty-state-text {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 80px 0;
+  color: var(--text-tertiary);
+  font-weight: 600;
+  font-size: 15px;
 }

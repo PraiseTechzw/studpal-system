@@ -1,16 +1,106 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PageHeader from '../components/PageHeader';
-import { Store, Tag, Search, Download, Star, Filter, MessageSquare, TrendingUp } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Store, Tag, Search, Download, Star, Filter, MessageSquare, TrendingUp, Plus, Loader2, UploadCloud } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { supabase } from '../utils/supabaseClient';
+import { useAuth } from '../hooks/useAuth';
 import './ResourceExchange.css';
 
 const ResourceExchange = () => {
-  const trending = [
-    { title: "Med Physics Summaries", author: "Dr. Mike", price: "$4.99", rating: 4.8, downloads: 1.2, icon: "🩺" },
-    { title: "CS Algorithm Cheat Sheet", author: "CoderX", price: "Free", rating: 4.9, downloads: 8.5, icon: "💻" },
-    { title: "Organic Chem Lab Guide", author: "ChemistryGuru", price: "$9.99", rating: 4.7, downloads: 0.8, icon: "🧪" },
-    { title: "World History Timeline", author: "HistoryBuff", price: "Free", rating: 4.6, downloads: 2.1, icon: "🌍" },
-  ];
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [newItem, setNewItem] = useState({ title: '', price: 'Free', description: '' });
+  const [resourceFile, setResourceFile] = useState(null);
+  const fileInputRef = useRef(null);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    fetchItems();
+  }, []);
+
+  const fetchItems = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('market_items')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setItems(data || []);
+    } catch (err) {
+      console.error("Error fetching market items:", err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCreateItem = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      let filePath = null;
+
+      if (resourceFile) {
+        const fileExt = resourceFile.name.split('.').pop();
+        const fileName = `${Math.random()}.${fileExt}`;
+        filePath = `${user.id}/${fileName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('market_resources')
+          .upload(filePath, resourceFile);
+
+        if (uploadError) throw uploadError;
+      }
+
+      const { error } = await supabase
+        .from('market_items')
+        .insert({
+          seller_id: user.id,
+          title: newItem.title,
+          price: newItem.price,
+          description: newItem.description,
+          icon: "📚",
+          file_path: filePath
+        });
+
+      if (error) throw error;
+      setShowAddModal(false);
+      setNewItem({ title: '', price: 'Free', description: '' });
+      setResourceFile(null);
+      fetchItems();
+    } catch (err) {
+      alert("Error listing resource: " + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const downloadResource = async (item) => {
+    if (!item.file_path) {
+      alert("This resource has no downloadable file.");
+      return;
+    }
+    try {
+      const { data, error } = await supabase.storage
+        .from('market_resources')
+        .download(item.file_path);
+
+      if (error) throw error;
+
+      const url = URL.createObjectURL(data);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = item.title;
+      a.click();
+      
+      // Update download count
+      await supabase.from('market_items').update({ downloads: (item.downloads || 0) + 1 }).eq('id', item.id);
+    } catch (err) {
+      alert("Error downloading resource: " + err.message);
+    }
+  };
 
   return (
     <div className="view-container">
@@ -18,7 +108,9 @@ const ResourceExchange = () => {
         title="Resource Exchange" 
         subtitle="Buy, sell, or share high-quality study materials with the StudPal community."
         actions={
-          <button className="action-btn-primary"><Tag size={18} /> Sell Resource</button>
+          <button className="action-btn-primary shadow-premium-btn" onClick={() => setShowAddModal(true)}>
+            <Tag size={18} /> Sell Resource
+          </button>
         }
       />
 
@@ -33,32 +125,39 @@ const ResourceExchange = () => {
           <div className="trending-section">
             <div className="section-header">
               <TrendingUp size={20} color="var(--accent-teal)" />
-              <h2>Trending Resources</h2>
+              <h2>Marketplace Resources</h2>
             </div>
-            <div className="trending-grid">
-              {trending.map((item, idx) => (
-                <motion.div 
-                  key={idx} 
-                  className="exchange-card"
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ delay: idx * 0.1 }}
-                >
-                  <div className="exchange-card-header">
-                    <span className="card-emoji">{item.icon}</span>
-                    <span className="card-price">{item.price}</span>
-                  </div>
-                  <h3>{item.title}</h3>
-                  <p className="card-author">by {item.author}</p>
-                  <div className="card-meta">
-                    <div className="meta-unit"><Star size={14} fill="#f59e0b" color="#f59e0b" /> {item.rating}</div>
-                    <div className="meta-unit"><Download size={14} /> {item.downloads}k</div>
-                  </div>
-                  <button className="card-view-btn">View Details</button>
-                </motion.div>
-              ))}
-            </div>
+            
+            {loading ? (
+              <div className="flex-center-p"><Loader2 className="animate-spin" /></div>
+            ) : (
+              <div className="trending-grid">
+                <AnimatePresence>
+                  {items.map((item, idx) => (
+                    <motion.div 
+                      key={item.id} 
+                      className="exchange-card"
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: idx * 0.1 }}
+                    >
+                      <div className="exchange-card-header">
+                        <span className="card-emoji">{item.icon}</span>
+                        <span className="card-price">{item.price}</span>
+                      </div>
+                      <h3>{item.title}</h3>
+                      <p className="card-author">Community Resource</p>
+                      <div className="card-meta">
+                        <div className="meta-unit"><Star size={14} fill="#f59e0b" color="#f59e0b" /> {item.rating}</div>
+                        <div className="meta-unit"><Download size={14} /> {item.downloads}</div>
+                      </div>
+                      <button className="card-view-btn" onClick={() => downloadResource(item)}>Download Now</button>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+                {items.length === 0 && <p className="empty-state-text">No resources listed yet. Be the first to share one!</p>}
+              </div>
+            )}
           </div>
         </div>
 
@@ -76,11 +175,52 @@ const ResourceExchange = () => {
               <MessageSquare size={24} color="white" />
               <h3>StudPal Community</h3>
             </div>
-            <p>Join over 10k students sharing their knowledge. Earn rewards for every download of your shared materials.</p>
+            <p>Join students from across the globe sharing their knowledge.</p>
             <button className="cta-secondary-btn">Join Discord Hub</button>
           </div>
         </aside>
       </div>
+
+      {showAddModal && (
+        <div className="modal-overlay">
+          <motion.div className="modal-card" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
+            <h2>List New Resource</h2>
+            <form onSubmit={handleCreateItem}>
+              <div className="input-group">
+                <label>Title</label>
+                <input type="text" placeholder="e.g. Advanced Calculus Summary" value={newItem.title} onChange={(e) => setNewItem({...newItem, title: e.target.value})} required />
+              </div>
+              <div className="input-grid">
+                <div className="input-group">
+                  <label>Price</label>
+                  <input type="text" placeholder="Free or $5" value={newItem.price} onChange={(e) => setNewItem({...newItem, price: e.target.value})} />
+                </div>
+              </div>
+              <div className="input-group">
+                <label>Resource File (PDF / Doc)</label>
+                <div 
+                  className={`file-upload-zone ${resourceFile ? 'has-file' : ''}`}
+                  onClick={() => fileInputRef.current.click()}
+                >
+                  <UploadCloud size={24} />
+                  <span>{resourceFile ? resourceFile.name : "Click to select study material"}</span>
+                  <input type="file" ref={fileInputRef} style={{ display: 'none' }} onChange={(e) => setResourceFile(e.target.files[0])} />
+                </div>
+              </div>
+              <div className="input-group">
+                <label>Description</label>
+                <textarea placeholder="Describe your material..." value={newItem.description} onChange={(e) => setNewItem({...newItem, description: e.target.value})}></textarea>
+              </div>
+              <div className="modal-actions">
+                <button type="button" className="btn-cancel" onClick={() => setShowAddModal(false)}>Cancel</button>
+                <button type="submit" className="btn-save" disabled={loading}>
+                  {loading ? <Loader2 size={18} className="animate-spin" /> : "List Material"}
+                </button>
+              </div>
+            </form>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 };

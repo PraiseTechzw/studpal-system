@@ -307,14 +307,37 @@
 .health-bar.warning { background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%); }
 .health-bar.danger { background: linear-gradient(90deg, #ef4444 0%, #f87171 100%); }
 
+.activity-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 80px 40px;
+  text-align: center;
+}
+
+.activity-placeholder p {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.activity-placeholder span {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  font-weight: 600;
+}
+
 .db-sync-card {
+  margin-top: 32px;
   display: flex;
   gap: 16px;
-  padding: 16px;
+  padding: 20px;
   background-color: #f0fdf4;
+  border-radius: var(--radius-xl);
   border: 1px solid #dcfce7;
-  border-radius: 16px;
-  margin-top: 12px;
 }
 
 .sync-info h4 {

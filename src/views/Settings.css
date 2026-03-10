@@ -4,6 +4,69 @@
   gap: 32px;
 }
 
+.flex-center-p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+}
+
+.profile-name-input {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-primary);
+  text-align: center;
+  border: none;
+  background: transparent;
+  width: 100%;
+  margin-bottom: 4px;
+}
+
+.profile-name-input:focus {
+  outline: none;
+  background: #f1f5f9;
+  border-radius: 8px;
+}
+
+.profile-bio-input {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-align: center;
+  border: none;
+  background: transparent;
+  width: 100%;
+}
+
+.profile-bio-input:focus {
+  outline: none;
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.detail-input {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  border: none;
+  background: transparent;
+  width: 100%;
+}
+
+.detail-input:focus {
+  outline: none;
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.profile-avatar-img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 32px;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+}
+
 .settings-left-pane {
   display: flex;
   flex-direction: column;

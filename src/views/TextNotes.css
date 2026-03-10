@@ -4,17 +4,25 @@
   gap: 24px;
 }
 
-.note-card {
-  background: white;
-  border-radius: 20px;
-  padding: 24px;
-  border: 1px solid var(--border-sidebar);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.note-card-wrapper {
+  position: relative;
   display: flex;
-  flex-direction: column;
-  gap: 16px;
+}
+
+.note-card {
+  flex: 1;
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  border: 1px solid var(--border-sidebar);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-decoration: none;
+  min-height: 200px;
 }
 
 .note-card:hover {
@@ -81,6 +89,34 @@
   color: var(--text-tertiary);
   transition: all 0.2s ease;
   cursor: pointer;
+}
+
+.delete-note-btn.floating {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  background-color: rgba(254, 242, 242, 0.8);
+  color: var(--accent-red);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.note-card-wrapper:hover .delete-note-btn.floating {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.delete-note-btn.floating:hover {
+  background-color: #fee2e2;
+  transform: scale(1.1) !important;
 }
 
 .note-card-placeholder:hover {

@@ -1,13 +1,52 @@
-import React from 'react';
-import { Sparkles, Bell } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Sparkles, Bell, Loader2 } from 'lucide-react';
+import { supabase } from '../utils/supabaseClient';
+import { useAuth } from '../hooks/useAuth';
 import './Hero.css';
 
 const Hero = () => {
+  const { user } = useAuth();
+  const [counts, setCounts] = useState({ notes: 0, docs: 0, links: 0, events: 0 });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (user) {
+      fetchCounts();
+    }
+  }, [user]);
+
+  const fetchCounts = async () => {
+    try {
+      setLoading(true);
+      const [notes, docs, links, events] = await Promise.all([
+        supabase.from('notes').select('*', { count: 'exact', head: true }),
+        supabase.from('documents').select('*', { count: 'exact', head: true }),
+        supabase.from('links').select('*', { count: 'exact', head: true }),
+        supabase.from('events').select('*', { count: 'exact', head: true })
+      ]);
+
+      setCounts({
+        notes: notes.count || 0,
+        docs: docs.count || 0,
+        links: links.count || 0,
+        events: events.count || 0
+      });
+    } catch (err) {
+      console.error("Error fetching hero stats:", err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const userName = user?.user_metadata?.full_name?.split(' ')[0] || user?.email?.split('@')[0] || "Scholar";
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
+
   const stats = [
-    { label: "Total Materials", value: "24" },
-    { label: "Due This Week", value: "5" },
-    { label: "Shared With You", value: "3" },
-    { label: "AI Generations", value: "12" }
+    { label: "Study Notes", value: counts.notes },
+    { label: "PDF Documents", value: counts.docs },
+    { label: "Web Bookmarks", value: counts.links },
+    { label: "Upcoming Events", value: counts.events }
   ];
 
   return (
@@ -15,8 +54,8 @@ const Hero = () => {
       <div className="hero-content">
         <div className="hero-header">
           <div className="hero-text">
-            <h1>Good evening, Praise! 👋</h1>
-            <p className="hero-subtitle">Ready to organize your study materials?</p>
+            <h1>{greeting}, {userName}! 👋</h1>
+            <p className="hero-subtitle">You have {counts.events} events to focus on today.</p>
           </div>
           <div className="hero-actions">
             <button className="primary-glass-btn">
@@ -35,7 +74,7 @@ const Hero = () => {
           {stats.map((stat, idx) => (
             <div key={idx} className="stat-card">
               <span className="stat-label">{stat.label}</span>
-              <span className="stat-value">{stat.value}</span>
+              <span className="stat-value">{loading ? <Loader2 size={16} className="animate-spin" /> : stat.value}</span>
             </div>
           ))}
         </div>

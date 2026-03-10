@@ -10,6 +10,7 @@ import Calendar from './views/Calendar';
 import Tags from './views/Tags';
 import StudyGroups from './views/StudyGroups';
 import AdminDashboard from './views/AdminDashboard';
+import NoteEditor from './views/NoteEditor';
 import AIAssistant from './views/AIAssistant';
 import SmartTools from './views/SmartTools';
 import ResourceExchange from './views/ResourceExchange';
@@ -50,6 +51,8 @@ function App() {
                         <Route path="/" element={<Navigate to="/dashboard" replace />} />
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/text-notes" element={<TextNotes />} />
+                        <Route path="/notes/new" element={<NoteEditor />} />
+                        <Route path="/notes/:id" element={<NoteEditor />} />
                         <Route path="/pdf-documents" element={<PDFDocuments />} />
                         <Route path="/web-links" element={<WebLinks />} />
                         <Route path="/calendar" element={<Calendar />} />

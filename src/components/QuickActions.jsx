@@ -5,7 +5,7 @@ import './QuickActions.css';
 const QuickActions = () => {
   const actions = [
     { icon: <Sparkles size={24} color="#14b8a6" />, title: "Ask AI Assistant", desc: "Get help with your studies", path: "/ai-assistant" },
-    { icon: <FileText size={24} color="#3b82f6" />, title: "Create Note", desc: "Write a new text note", path: "/text-notes" },
+    { icon: <FileText size={24} color="#3b82f6" />, title: "Create Note", desc: "Write a new text note", path: "/notes/new" },
     { icon: <Upload size={24} color="#f59e0b" />, title: "Upload PDF", desc: "Add a new document", path: "/pdf-documents" },
     { icon: <Globe size={24} color="#8b5cf6" />, title: "Save Link", desc: "Bookmark a web resource", path: "/web-links" },
     { icon: <Users size={24} color="#10b981" />, title: "Join Study Group", desc: "Collaborate with peers", path: "/study-groups" }

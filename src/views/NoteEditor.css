@@ -1,0 +1,117 @@
+.editor-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 32px;
+}
+
+.editor-main-card {
+  background: white;
+  border-radius: var(--radius-2xl);
+  padding: 40px;
+  border: 1px solid var(--border-sidebar);
+  box-shadow: var(--shadow-premium);
+  display: flex;
+  flex-direction: column;
+  min-height: 600px;
+  transition: all 0.3s ease;
+}
+
+.note-title-input {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--text-primary);
+  border-bottom: 1.5px solid #f1f5f9;
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+  transition: border-color 0.2s ease;
+}
+
+.note-title-input:focus {
+  border-color: var(--accent-teal);
+}
+
+.editor-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+.editor-word-count {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-tertiary);
+}
+
+.note-content-area {
+  flex: 1;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  font-family: inherit;
+  resize: none;
+  border: none;
+}
+
+.editor-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.editor-settings-card {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  border: 1px solid var(--border-sidebar);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.editor-settings-card h3 {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.editor-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.editor-input-group label {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.editor-input-group select, .editor-input-group input {
+  padding: 12px;
+  background-color: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  outline: none;
+}
+
+.editor-input-group select:focus, .editor-input-group input:focus {
+  border-color: var(--accent-teal);
+  background-color: white;
+}
+
+.flex-center-full {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+}

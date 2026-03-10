@@ -1,15 +1,17 @@
 import React from 'react';
 import { 
   Sparkles, Wand2, Store, Clock, ChevronLeft, Menu, Shield, BarChart2,
-  Settings, LogOut
+  Settings, LogOut, Home, FileText, BookOpen, Globe, Calendar, Hash, Users
 } from 'lucide-react';
 import { useSidebar } from '../hooks/useSidebar';
+import { useAuth } from '../hooks/useAuth';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import './Sidebar.css';
 
 const Sidebar = () => {
   const { isCollapsed, toggleSidebar } = useSidebar();
+  const { signOut } = useAuth();
   const location = useLocation();
 
   const sections = [
@@ -128,14 +130,15 @@ const Sidebar = () => {
           <span className="nav-item-icon"><Settings size={22} /></span>
           {!isCollapsed && <span className="nav-item-label">Settings</span>}
         </Link>
-        <Link 
-          to="/login" 
+        <button 
+          onClick={signOut}
           className="nav-item footer-item logout"
+          style={{ width: '100%', background: 'none', border: 'none', cursor: 'pointer' }}
           title={isCollapsed ? "Logout" : ""}
         >
           <span className="nav-item-icon"><LogOut size={22} /></span>
           {!isCollapsed && <span className="nav-item-label">Logout</span>}
-        </Link>
+        </button>
       </div>
     </aside>
   );
