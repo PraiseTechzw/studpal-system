@@ -1,7 +1,7 @@
 import React from 'react';
 import { 
-  Home, FileText, BookOpen, Globe, Calendar, Hash, Users, 
-  Sparkles, Wand2, Store, Clock, ChevronLeft, Menu, Shield, BarChart2
+  Sparkles, Wand2, Store, Clock, ChevronLeft, Menu, Shield, BarChart2,
+  Settings, LogOut
 } from 'lucide-react';
 import { useSidebar } from '../hooks/useSidebar';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -120,6 +120,22 @@ const Sidebar = () => {
       </nav>
 
       <div className="sidebar-footer">
+        <Link 
+          to="/settings" 
+          className={`nav-item footer-item ${location.pathname === '/settings' ? 'active' : ''}`}
+          title={isCollapsed ? "Settings" : ""}
+        >
+          <span className="nav-item-icon"><Settings size={22} /></span>
+          {!isCollapsed && <span className="nav-item-label">Settings</span>}
+        </Link>
+        <Link 
+          to="/login" 
+          className="nav-item footer-item logout"
+          title={isCollapsed ? "Logout" : ""}
+        >
+          <span className="nav-item-icon"><LogOut size={22} /></span>
+          {!isCollapsed && <span className="nav-item-label">Logout</span>}
+        </Link>
       </div>
     </aside>
   );

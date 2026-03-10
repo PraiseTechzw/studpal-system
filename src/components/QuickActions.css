@@ -21,6 +21,12 @@
   flex: 1;
 }
 
+.action-item-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
 .action-icon-wrapper {
   width: 56px;
   height: 56px;

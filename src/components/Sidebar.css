@@ -83,6 +83,34 @@
   height: 24px;
 }
 
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-sidebar);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footer-item {
+  color: var(--text-tertiary) !important;
+}
+
+.footer-item:hover {
+  background-color: #f1f5f9;
+  color: var(--text-primary) !important;
+}
+
+.footer-item.active {
+  background-color: var(--bg-hover) !important;
+  color: var(--accent-teal) !important;
+}
+
+.footer-item.logout:hover {
+  background-color: #fef2f2 !important;
+  color: #ef4444 !important;
+}
+
 .nav-item-badge {
   margin-left: auto;
   font-size: 10px;
