@@ -88,7 +88,12 @@ CREATE TABLE public.study_groups (
     description TEXT,
     subject TEXT,
     member_count INTEGER DEFAULT 1,
-    is_private BOOLEAN DEFAULT false
+    is_private BOOLEAN DEFAULT false,
+    course_code TEXT,
+    university TEXT,
+    difficulty_level TEXT CHECK (difficulty_level IN ('beginner', 'intermediate', 'advanced')),
+    activity_score INTEGER DEFAULT 0,
+    is_active BOOLEAN DEFAULT true
 );
 
 ALTER TABLE public.study_groups ENABLE ROW LEVEL SECURITY;
@@ -236,6 +241,10 @@ INSERT INTO storage.buckets (id, name, public)
 VALUES ('market_resources', 'market_resources', true)
 ON CONFLICT (id) DO NOTHING;
 
+INSERT INTO storage.buckets (id, name, public) 
+VALUES ('group_resources', 'group_resources', true)
+ON CONFLICT (id) DO NOTHING;
+
 -- 2. Storage policies for 'documents' (Private, User-specific)
 -- Paths are expected to be {user_id}/{filename}
 CREATE POLICY "Users can upload their own documents" ON storage.objects
@@ -263,3 +272,67 @@ CREATE POLICY "Anyone can view market resources" ON storage.objects
 
 CREATE POLICY "Users can upload market resources" ON storage.objects
     FOR INSERT WITH CHECK (bucket_id = 'market_resources' AND auth.uid() IS NOT NULL);
+
+-- 5. Storage policies for 'group_resources'
+CREATE POLICY "Anyone can view group resources" ON storage.objects
+    FOR SELECT USING (bucket_id = 'group_resources');
+
+CREATE POLICY "Users can upload group resources" ON storage.objects
+    FOR INSERT WITH CHECK (bucket_id = 'group_resources' AND auth.uid() IS NOT NULL);
+
+-- Create group_messages table for live group chat
+CREATE TABLE public.group_messages (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    group_id UUID REFERENCES public.study_groups(id) ON DELETE CASCADE NOT NULL,
+    user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+ALTER TABLE public.group_messages ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Anyone can view group messages" ON public.group_messages
+    FOR SELECT USING (true);
+
+CREATE POLICY "Users can send group messages" ON public.group_messages
+    FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+-- Create group_resources table
+CREATE TABLE public.group_resources (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    group_id UUID REFERENCES public.study_groups(id) ON DELETE CASCADE NOT NULL,
+    uploader_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+    title TEXT NOT NULL,
+    resource_type TEXT CHECK (resource_type IN ('pdf', 'link', 'note')),
+    file_path TEXT,
+    url TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+ALTER TABLE public.group_resources ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Anyone can view group resources" ON public.group_resources
+    FOR SELECT USING (true);
+
+CREATE POLICY "Users can upload group resources" ON public.group_resources
+    FOR INSERT WITH CHECK (auth.uid() = uploader_id);
+
+-- Create study_sessions table
+CREATE TABLE public.study_sessions (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    group_id UUID REFERENCES public.study_groups(id) ON DELETE CASCADE NOT NULL,
+    host_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+    title TEXT NOT NULL,
+    start_time TIMESTAMP WITH TIME ZONE NOT NULL,
+    meeting_link TEXT,
+    status TEXT DEFAULT 'scheduled',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+ALTER TABLE public.study_sessions ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Anyone can view study sessions" ON public.study_sessions
+    FOR SELECT USING (true);
+
+CREATE POLICY "Users can create study sessions" ON public.study_sessions
+    FOR INSERT WITH CHECK (auth.uid() = host_id);

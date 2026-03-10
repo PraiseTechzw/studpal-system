@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PageHeader from '../components/PageHeader';
 import { Plus, Users, Search, MessageSquare, Clock, ChevronRight, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '../utils/supabaseClient';
 import { useAuth } from '../hooks/useAuth';
 import './StudyGroups.css';
@@ -12,6 +13,7 @@ const StudyGroups = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [newGroup, setNewGroup] = useState({ name: '', description: '', subject: '' });
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchGroups();
@@ -111,8 +113,12 @@ const StudyGroups = () => {
                 </div>
 
                 <div className="group-card-actions">
-                  <button className="join-group-btn">Join Group <ChevronRight size={16} /></button>
-                  <button className="chat-group-btn"><MessageSquare size={18} /></button>
+                  <button className="join-group-btn" onClick={() => navigate(`/study-groups/${group.id}`)}>
+                    Enter Workspace <ChevronRight size={16} />
+                  </button>
+                  <button className="chat-group-btn" onClick={() => navigate(`/study-groups/${group.id}`)}>
+                    <MessageSquare size={18} />
+                  </button>
                 </div>
               </motion.div>
             ))}

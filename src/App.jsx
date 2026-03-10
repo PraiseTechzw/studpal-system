@@ -9,6 +9,7 @@ import WebLinks from './views/WebLinks';
 import Calendar from './views/Calendar';
 import Tags from './views/Tags';
 import StudyGroups from './views/StudyGroups';
+import GroupWorkspace from './views/GroupWorkspace';
 import AdminDashboard from './views/AdminDashboard';
 import NoteEditor from './views/NoteEditor';
 import AIAssistant from './views/AIAssistant';
@@ -58,6 +59,7 @@ function App() {
                         <Route path="/calendar" element={<Calendar />} />
                         <Route path="/tags" element={<Tags />} />
                         <Route path="/study-groups" element={<StudyGroups />} />
+                        <Route path="/study-groups/:id" element={<GroupWorkspace />} />
                         <Route path="/ai-assistant" element={<AIAssistant />} />
                         <Route path="/smart-tools" element={<SmartTools />} />
                         <Route path="/resource-exchange" element={<ResourceExchange />} />

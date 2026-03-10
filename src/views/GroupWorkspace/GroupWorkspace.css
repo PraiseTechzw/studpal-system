@@ -1,0 +1,321 @@
+.workspace-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 100px); /* Adjust based on topbar height */
+  overflow: hidden;
+  gap: 24px;
+}
+
+.workspace-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: white;
+  padding: 24px 32px;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-sidebar);
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+}
+
+.workspace-back-btn {
+  background-color: #f8fafc;
+  color: var(--text-secondary);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.workspace-back-btn:hover {
+  background-color: #e2e8f0;
+  color: var(--text-primary);
+}
+
+.workspace-title-area {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.workspace-icon {
+  font-size: 32px;
+  width: 56px;
+  height: 56px;
+  background-color: #f0fdfa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+}
+
+.workspace-meta h1 {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.workspace-subject {
+  font-size: 14px;
+  color: var(--text-tertiary);
+  font-weight: 600;
+}
+
+.workspace-main {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 24px;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Sidebar Nav */
+.workspace-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: white;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-sidebar);
+  padding: 24px 16px;
+  box-shadow: var(--shadow-sm);
+  overflow-y: auto;
+}
+
+.workspace-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ws-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.ws-nav-item:hover {
+  background-color: #f8fafc;
+  color: var(--text-primary);
+}
+
+.ws-nav-item.active {
+  background-color: #f0fdfa;
+  color: var(--accent-teal);
+  font-weight: 700;
+}
+
+.ws-nav-divider {
+  height: 1px;
+  background-color: var(--border-sidebar);
+  margin: 8px 0;
+}
+
+.ws-sidebar-stats {
+  margin-top: auto;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-sidebar);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ws-sidebar-stats h4 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-tertiary);
+  font-weight: 800;
+  padding: 0 8px;
+}
+
+.ws-stat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  padding: 0 8px;
+}
+
+/* Content Area */
+.workspace-content {
+  background: white;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-sidebar);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Chat Module */
+.ws-chat-module {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.ws-chat-messages {
+  flex: 1;
+  padding: 32px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ws-chat-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-tertiary);
+  gap: 16px;
+}
+
+.ws-chat-empty p {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.chat-message-row {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+  max-width: 80%;
+}
+
+.chat-message-row.is-me {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.chat-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--accent-teal);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.chat-message-bubble {
+  background-color: #f1f5f9;
+  padding: 14px 20px;
+  border-radius: 20px;
+  border-bottom-left-radius: 4px;
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 500;
+  position: relative;
+}
+
+.chat-message-row.is-me .chat-message-bubble {
+  background-color: var(--accent-teal);
+  color: white;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 4px;
+}
+
+.chat-message-time {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-top: 4px;
+  display: block;
+}
+
+.chat-message-row.is-me .chat-message-time {
+  color: rgba(255, 255, 255, 0.7);
+  text-align: right;
+}
+
+.ws-chat-input-area {
+  padding: 24px;
+  border-top: 1px solid var(--border-sidebar);
+  background-color: white;
+  display: flex;
+  gap: 16px;
+}
+
+.ws-chat-input-area input {
+  flex: 1;
+  background-color: #f8fafc;
+  border: 1px solid var(--border-sidebar);
+  padding: 16px 24px;
+  border-radius: 99px;
+  font-size: 15px;
+  transition: all 0.2s ease;
+}
+
+.ws-chat-input-area input:focus {
+  border-color: var(--accent-teal);
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+  background-color: white;
+}
+
+.ws-send-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background-color: var(--accent-teal);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
+  transition: all 0.2s ease;
+}
+
+.ws-send-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(13, 148, 136, 0.4);
+}
+
+.ws-send-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Placeholders */
+.ws-placeholder-module {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  gap: 16px;
+  color: var(--text-secondary);
+}
+
+.ws-placeholder-module h2 {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.ws-placeholder-module p {
+  font-weight: 500;
+  max-width: 300px;
+}
