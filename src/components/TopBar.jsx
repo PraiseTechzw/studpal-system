@@ -1,11 +1,15 @@
-import React from 'react';
-import { Search, Bell, Sun, UserCircle, Menu, Moon, Command } from 'lucide-react';
+import { Search, Bell, Sun, Menu, Moon, Command, LogOut } from 'lucide-react';
 import { useSidebar } from '../hooks/useSidebar';
+import { useAuth } from '../hooks/useAuth';
 import './TopBar.css';
 
 const TopBar = () => {
   const { isCollapsed, toggleSidebar } = useSidebar();
+  const { user, signOut } = useAuth();
   const [isDark, setIsDark] = React.useState(false);
+
+  const userName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || "User";
+  const initials = userName.split(' ').map(n => n[0]).join('').toUpperCase();
 
   return (
     <div className="top-bar">
@@ -34,11 +38,14 @@ const TopBar = () => {
           <span className="notification-badge pulse">3</span>
         </button>
         <div className="user-profile">
-          <div className="avatar">P</div>
+          <div className="avatar">{initials}</div>
           <div className="user-info">
-            <span className="user-name">Praise</span>
+            <span className="user-name">{userName}</span>
             <span className="user-role">Student</span>
           </div>
+          <button className="utility-btn ml-2" onClick={signOut} title="Sign Out">
+            <LogOut size={18} />
+          </button>
         </div>
       </div>
     </div>

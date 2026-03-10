@@ -65,6 +65,34 @@
   font-weight: 500;
 }
 
+.auth-error-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background-color: #fef2f2;
+  border: 1px solid #fee2e2;
+  border-radius: 12px;
+  color: var(--accent-red);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.auth-error-banner.info {
+  background-color: #f0fdfa;
+  border-color: #dcfce7;
+  color: var(--accent-teal);
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 .auth-form {
   display: flex;
   flex-direction: column;

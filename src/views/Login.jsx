@@ -1,10 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, Mail, Lock, ArrowRight, Github, Chrome } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Sparkles, Mail, Lock, ArrowRight, Github, Chrome, AlertCircle, Loader2 } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 import './Auth.css';
 
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const { signIn } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+
+    const { error } = await signIn({ email, password });
+
+    if (error) {
+      setError(error.message);
+      setLoading(false);
+    } else {
+      navigate('/dashboard');
+    }
+  };
+
   return (
     <div className="auth-page">
       <div className="auth-container">
@@ -22,12 +45,29 @@ const Login = () => {
             <p>Your AI-powered study companion is waiting.</p>
           </div>
 
-          <form className="auth-form" onSubmit={(e) => e.preventDefault()}>
+          {error && (
+            <motion.div 
+              className="auth-error-banner"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+            >
+              <AlertCircle size={18} />
+              <span>{error}</span>
+            </motion.div>
+          )}
+
+          <form className="auth-form" onSubmit={handleLogin}>
             <div className="auth-input-group">
               <label>Email Address</label>
               <div className="auth-input-wrapper">
                 <Mail size={18} />
-                <input type="email" placeholder="name@university.edu" />
+                <input 
+                  type="email" 
+                  placeholder="name@university.edu" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
               </div>
             </div>
 
@@ -38,12 +78,26 @@ const Login = () => {
               </div>
               <div className="auth-input-wrapper">
                 <Lock size={18} />
-                <input type="password" placeholder="••••••••" />
+                <input 
+                  type="password" 
+                  placeholder="••••••••" 
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
               </div>
             </div>
 
-            <button className="auth-submit-btn">
-              Sign In <ArrowRight size={18} />
+            <button className="auth-submit-btn" disabled={loading}>
+              {loading ? (
+                <>
+                  <Loader2 size={18} className="animate-spin" /> Signing in...
+                </>
+              ) : (
+                <>
+                  Sign In <ArrowRight size={18} />
+                </>
+              )}
             </button>
           </form>
 

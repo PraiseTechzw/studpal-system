@@ -18,47 +18,59 @@ import Settings from './views/Settings';
 import Login from './views/Login';
 import Register from './views/Register';
 import { SidebarProvider } from './hooks/useSidebar';
+import { AuthProvider, useAuth } from './hooks/useAuth';
 import './App.css';
+
+const ProtectedRoute = ({ children }) => {
+  const { session, loading } = useAuth();
+  if (loading) return <div>Loading...</div>;
+  if (!session) return <Navigate to="/login" replace />;
+  return children;
+};
 
 function App() {
   return (
     <Router>
-      <SidebarProvider>
-        <Routes>
-          {/* Auth Routes - No Sidebar/TopBar */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+      <AuthProvider>
+        <SidebarProvider>
+          <Routes>
+            {/* Auth Routes - No Sidebar/TopBar */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
 
-          {/* Protected App Routes - With Shell */}
-          <Route path="/*" element={
-            <div className="app-container">
-              <Sidebar />
-              <div className="main-layout">
-                <TopBar />
-                <main className="main-content">
-                  <Routes>
-                    <Route path="/" element={<Navigate to="/dashboard" replace />} />
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/text-notes" element={<TextNotes />} />
-                    <Route path="/pdf-documents" element={<PDFDocuments />} />
-                    <Route path="/web-links" element={<WebLinks />} />
-                    <Route path="/calendar" element={<Calendar />} />
-                    <Route path="/tags" element={<Tags />} />
-                    <Route path="/study-groups" element={<StudyGroups />} />
-                    <Route path="/ai-assistant" element={<AIAssistant />} />
-                    <Route path="/smart-tools" element={<SmartTools />} />
-                    <Route path="/resource-exchange" element={<ResourceExchange />} />
-                    <Route path="/admin" element={<AdminDashboard />} />
-                    <Route path="/study-timer" element={<StudyTimer />} />
-                    <Route path="/settings" element={<Settings />} />
-                    <Route path="*" element={<Navigate to="/dashboard" replace />} />
-                  </Routes>
-                </main>
-              </div>
-            </div>
-          } />
-        </Routes>
-      </SidebarProvider>
+            {/* Protected App Routes - With Shell */}
+            <Route path="/*" element={
+              <ProtectedRoute>
+                <div className="app-container">
+                  <Sidebar />
+                  <div className="main-layout">
+                    <TopBar />
+                    <main className="main-content">
+                      <Routes>
+                        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/text-notes" element={<TextNotes />} />
+                        <Route path="/pdf-documents" element={<PDFDocuments />} />
+                        <Route path="/web-links" element={<WebLinks />} />
+                        <Route path="/calendar" element={<Calendar />} />
+                        <Route path="/tags" element={<Tags />} />
+                        <Route path="/study-groups" element={<StudyGroups />} />
+                        <Route path="/ai-assistant" element={<AIAssistant />} />
+                        <Route path="/smart-tools" element={<SmartTools />} />
+                        <Route path="/resource-exchange" element={<ResourceExchange />} />
+                        <Route path="/admin" element={<AdminDashboard />} />
+                        <Route path="/study-timer" element={<StudyTimer />} />
+                        <Route path="/settings" element={<Settings />} />
+                        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+                      </Routes>
+                    </main>
+                  </div>
+                </div>
+              </ProtectedRoute>
+            } />
+          </Routes>
+        </SidebarProvider>
+      </AuthProvider>
     </Router>
   );
 }
