@@ -9,6 +9,9 @@ import WebLinks from './views/WebLinks';
 import Calendar from './views/Calendar';
 import Tags from './views/Tags';
 import StudyGroups from './views/StudyGroups';
+import AIAssistant from './views/AIAssistant';
+import SmartTools from './views/SmartTools';
+import ResourceExchange from './views/ResourceExchange';
 import StudyTimer from './views/StudyTimer';
 import { SidebarProvider } from './hooks/useSidebar';
 import './App.css';
@@ -46,9 +49,9 @@ function App() {
               <Route path="/tags" element={<Tags />} />
               <Route path="/study-groups" element={<StudyGroups />} />
               
-              <Route path="/ai-assistant" element={<PlaceholderView title="AI Assistant" />} />
-              <Route path="/smart-tools" element={<PlaceholderView title="Smart Tools" />} />
-              <Route path="/resource-exchange" element={<PlaceholderView title="Resource Exchange" />} />
+              <Route path="/ai-assistant" element={<AIAssistant />} />
+              <Route path="/smart-tools" element={<SmartTools />} />
+              <Route path="/resource-exchange" element={<ResourceExchange />} />
               
               <Route path="/study-timer" element={<StudyTimer />} />
               <Route path="*" element={<Navigate to="/dashboard" replace />} />

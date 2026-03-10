@@ -106,6 +106,8 @@ input {
   border: none;
   outline: none;
   font-family: inherit;
+  background: transparent;
+  color: inherit;
 }
 
 /* Animations */
