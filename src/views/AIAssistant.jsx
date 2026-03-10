@@ -4,6 +4,7 @@ import { Send, Sparkles, User, Brain, MessageSquare, Plus, Loader2 } from 'lucid
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../utils/supabaseClient';
 import { useAuth } from '../hooks/useAuth';
+import toast from 'react-hot-toast';
 import './AIAssistant.css';
 
 const AIAssistant = () => {
@@ -107,7 +108,7 @@ const AIAssistant = () => {
       await supabase.from('conversations').update({ last_message: aiResponse }).eq('id', convId);
 
     } catch (err) {
-      alert("Error sending message: " + err.message);
+      toast.error('Error sending message: ' + err.message);
     } finally {
       setSending(false);
     }

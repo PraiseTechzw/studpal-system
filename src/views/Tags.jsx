@@ -4,6 +4,8 @@ import { Plus, Hash, Tag, Search, MoreVertical, Loader2, Trash2 } from 'lucide-r
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../utils/supabaseClient';
 import { useAuth } from '../hooks/useAuth';
+import toast from 'react-hot-toast';
+import { SkCardGrid } from '../components/Skeleton';
 import './Tags.css';
 
 const Tags = () => {
@@ -49,8 +51,9 @@ const Tags = () => {
       setShowAddModal(false);
       setNewTag({ name: '', color: '#14b8a6' });
       fetchTags();
+      toast.success('Tag created!');
     } catch (err) {
-      alert("Error creating tag: " + err.message);
+      toast.error('Error creating tag: ' + err.message);
     }
   };
 
@@ -63,8 +66,9 @@ const Tags = () => {
 
       if (error) throw error;
       setTags(tags.filter(t => t.id !== id));
+      toast.success('Tag deleted.');
     } catch (err) {
-      alert("Error deleting tag: " + err.message);
+      toast.error('Error deleting tag: ' + err.message);
     }
   };
 
@@ -88,8 +92,8 @@ const Tags = () => {
           </div>
 
           {loading ? (
-            <div className="flex-center-p">
-              <Loader2 size={32} className="animate-spin" color="var(--accent-teal)" />
+            <div style={{ padding: '24px 0' }}>
+              <SkCardGrid count={9} />
             </div>
           ) : (
             <div className="tags-grid-display">

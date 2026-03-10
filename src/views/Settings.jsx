@@ -8,6 +8,8 @@ import {
 import { motion } from 'framer-motion';
 import { supabase } from '../utils/supabaseClient';
 import { useAuth } from '../hooks/useAuth';
+import toast from 'react-hot-toast';
+import { SkPageContent } from '../components/Skeleton';
 import './Settings.css';
 
 const Settings = () => {
@@ -73,9 +75,9 @@ const Settings = () => {
         });
 
       if (error) throw error;
-      alert("Profile updated successfully!");
+      toast.success('Profile updated successfully! ✅');
     } catch (err) {
-      alert("Error saving profile: " + err.message);
+      toast.error('Error saving profile: ' + err.message);
     } finally {
       setSaving(false);
     }
@@ -106,9 +108,10 @@ const Settings = () => {
       
       // Update DB immediately for avatar
       await supabase.from('profiles').update({ avatar_url: publicUrl }).eq('id', user.id);
+      toast.success('Profile picture updated! 📸');
 
     } catch (err) {
-      alert("Error uploading avatar: " + err.message);
+      toast.error('Error uploading avatar: ' + err.message);
     } finally {
       setSaving(false);
     }
@@ -121,7 +124,7 @@ const Settings = () => {
     { title: "Appearance", icon: <Palette size={20} />, items: ["Theme Settings", "Font Size", "Dashboard Layout"] },
   ];
 
-  if (loading) return <div className="view-container flex-center-p"><Loader2 className="animate-spin" /></div>;
+  if (loading) return <div className="view-container"><SkPageContent variant="stats+cards" statCount={3} cardCount={4} /></div>;
 
   return (
     <div className="view-container">

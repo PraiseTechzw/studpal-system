@@ -4,6 +4,8 @@ import { Wand2, Zap, FileText, Layout, Copy, Brain, Layers, Share2, Loader2, Tra
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../utils/supabaseClient';
 import { useAuth } from '../hooks/useAuth';
+import toast from 'react-hot-toast';
+import { SkList } from '../components/Skeleton';
 import './SmartTools.css';
 
 const SmartTools = () => {
@@ -61,8 +63,9 @@ const SmartTools = () => {
 
       if (error) throw error;
       fetchResults();
+      toast.success('Tool run successfully! ✨');
     } catch (err) {
-      alert("Error running tool: " + err.message);
+      toast.error('Error running tool: ' + err.message);
     } finally {
       setRunning(null);
     }
@@ -73,8 +76,9 @@ const SmartTools = () => {
       const { error } = await supabase.from('smart_results').delete().eq('id', id);
       if (error) throw error;
       setResults(results.filter(r => r.id !== id));
+      toast.success('Result deleted.');
     } catch (err) {
-      alert("Error deleting result: " + err.message);
+      toast.error('Error deleting result: ' + err.message);
     }
   };
 
@@ -122,7 +126,7 @@ const SmartTools = () => {
         </div>
         
         {loading ? (
-          <div className="flex-center-p"><Loader2 className="animate-spin" /></div>
+          <div style={{ marginTop: 16 }}><SkList count={3} /></div>
         ) : (
           <div className="results-list">
             <AnimatePresence>

@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../utils/supabaseClient';
 import { useAuth } from '../hooks/useAuth';
+import toast from 'react-hot-toast';
+import { SkCardGrid } from '../components/Skeleton';
 import './StudyGroups.css';
 
 const StudyGroups = () => {
@@ -52,8 +54,9 @@ const StudyGroups = () => {
       setShowAddModal(false);
       setNewGroup({ name: '', description: '', subject: '' });
       fetchGroups();
+      toast.success('Study group created! 🎓');
     } catch (err) {
-      alert("Error creating group: " + err.message);
+      toast.error('Error creating group: ' + err.message);
     }
   };
 
@@ -73,8 +76,8 @@ const StudyGroups = () => {
       />
 
       {loading ? (
-        <div className="flex-center-p">
-          <Loader2 size={32} className="animate-spin" color="var(--accent-teal)" />
+        <div style={{ padding: '24px 0' }}>
+          <SkCardGrid count={6} />
         </div>
       ) : (
         <div className="groups-grid">

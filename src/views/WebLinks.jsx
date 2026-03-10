@@ -4,6 +4,8 @@ import { ExternalLink, Plus, Globe, Search, Trash2, Loader2, Link2 } from 'lucid
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../utils/supabaseClient';
 import { useAuth } from '../hooks/useAuth';
+import toast from 'react-hot-toast';
+import { SkCardGrid } from '../components/Skeleton';
 import './WebLinks.css';
 
 const WebLinks = () => {
@@ -48,8 +50,9 @@ const WebLinks = () => {
       setShowAddModal(false);
       setNewLink({ title: '', url: '', description: '' });
       fetchLinks();
+      toast.success('Link added successfully! 🔗');
     } catch (err) {
-      alert("Error adding link: " + err.message);
+      toast.error('Error adding link: ' + err.message);
     }
   };
 
@@ -62,8 +65,9 @@ const WebLinks = () => {
 
       if (error) throw error;
       setLinks(links.filter(link => link.id !== id));
+      toast.success('Link removed.');
     } catch (err) {
-      alert("Error deleting link: " + err.message);
+      toast.error('Error deleting link: ' + err.message);
     }
   };
 
@@ -80,8 +84,8 @@ const WebLinks = () => {
       />
 
       {loading ? (
-        <div className="flex-center-p">
-          <Loader2 size={32} className="animate-spin" color="var(--accent-teal)" />
+        <div style={{ padding: '24px 0' }}>
+          <SkCardGrid count={6} />
         </div>
       ) : (
         <div className="links-grid">

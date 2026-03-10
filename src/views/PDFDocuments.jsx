@@ -4,6 +4,8 @@ import { Upload, FileText, Download, Trash2, Search, Plus, Loader2 } from 'lucid
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../utils/supabaseClient';
 import { useAuth } from '../hooks/useAuth';
+import toast from 'react-hot-toast';
+import { SkTable } from '../components/Skeleton';
 import './PDFDocuments.css';
 
 const PDFDocuments = () => {
@@ -66,8 +68,9 @@ const PDFDocuments = () => {
       if (dbError) throw dbError;
 
       fetchDocuments();
+      toast.success('Document uploaded successfully! 📄');
     } catch (err) {
-      alert("Error uploading document: " + err.message);
+      toast.error('Error uploading document: ' + err.message);
     } finally {
       setUploading(false);
     }
@@ -91,8 +94,9 @@ const PDFDocuments = () => {
       if (dbError) throw dbError;
 
       setDocuments(documents.filter(d => d.id !== doc.id));
+      toast.success('Document deleted.');
     } catch (err) {
-      alert("Error deleting document: " + err.message);
+      toast.error('Error deleting document: ' + err.message);
     }
   };
 
@@ -109,8 +113,9 @@ const PDFDocuments = () => {
       a.href = url;
       a.download = originalName;
       a.click();
+      toast.success('Download started!');
     } catch (err) {
-      alert("Error downloading file: " + err.message);
+      toast.error('Error downloading file: ' + err.message);
     }
   };
 
@@ -155,8 +160,8 @@ const PDFDocuments = () => {
           </div>
           
           {loading ? (
-            <div className="flex-center-p">
-              <Loader2 size={32} className="animate-spin" color="var(--accent-teal)" />
+            <div style={{ padding: '16px 0' }}>
+              <SkTable rows={5} cols={4} />
             </div>
           ) : (
             <AnimatePresence>

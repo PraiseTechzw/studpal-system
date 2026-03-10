@@ -4,6 +4,8 @@ import { Play, Pause, RotateCcw, Coffee, Book, Brain, History, Loader2 } from 'l
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../utils/supabaseClient';
 import { useAuth } from '../hooks/useAuth';
+import toast from 'react-hot-toast';
+import { SkList } from '../components/Skeleton';
 import './StudyTimer.css';
 
 const StudyTimer = () => {
@@ -27,7 +29,10 @@ const StudyTimer = () => {
     } else if (timeLeft === 0 && isActive) {
       setIsActive(false);
       saveSession();
-      alert(mode === 'focus' ? "Focus session complete! Take a break." : "Break over! Ready to focus?");
+      toast.success(
+        mode === 'focus' ? '🎯 Focus session complete! Time for a break.' : '☕ Break over! Ready to focus?',
+        { duration: 6000 }
+      );
     } else {
       clearInterval(interval);
     }
@@ -137,7 +142,7 @@ const StudyTimer = () => {
               <h3>Recent Sessions</h3>
             </div>
             {loading ? (
-              <div className="flex-center-p"><Loader2 className="animate-spin" /></div>
+              <div style={{ marginTop: 16 }}><SkList count={3} /></div>
             ) : (
               <div className="session-list">
                 {sessions.map(s => (

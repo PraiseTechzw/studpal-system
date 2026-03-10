@@ -4,6 +4,8 @@ import { Save, ArrowLeft, Trash2, Tag, Calendar, Loader2 } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { supabase } from '../utils/supabaseClient';
 import { useAuth } from '../hooks/useAuth';
+import toast from 'react-hot-toast';
+import { SkPageContent } from '../components/Skeleton';
 import './NoteEditor.css';
 
 const NoteEditor = () => {
@@ -36,7 +38,7 @@ const NoteEditor = () => {
       setContent(data.content);
       setCategory(data.category);
     } catch (err) {
-      alert("Error fetching note: " + err.message);
+      toast.error('Error fetching note: ' + err.message);
       navigate('/text-notes');
     } finally {
       setFetching(false);
@@ -45,7 +47,7 @@ const NoteEditor = () => {
 
   const handleSave = async () => {
     if (!title.trim()) {
-      alert("Please enter a title");
+      toast.error('Please enter a title for your note.');
       return;
     }
 
@@ -75,8 +77,9 @@ const NoteEditor = () => {
       }
 
       navigate('/text-notes');
+      toast.success('Note saved! ✍️');
     } catch (err) {
-      alert("Error saving note: " + err.message);
+      toast.error('Error saving note: ' + err.message);
     } finally {
       setLoading(false);
     }
@@ -84,8 +87,8 @@ const NoteEditor = () => {
 
   if (fetching) {
     return (
-      <div className="view-container flex-center-full">
-        <Loader2 size={40} className="animate-spin" color="var(--accent-teal)" />
+      <div className="view-container">
+        <SkPageContent variant="cards" cardCount={1} statCount={0} />
       </div>
     );
   }

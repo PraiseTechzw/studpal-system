@@ -1,0 +1,153 @@
+/* ==============================
+   SPLASH SCREEN
+   ============================== */
+
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #0f172a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Background blobs */
+.splash-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.splash-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.18;
+}
+
+.sb-1 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #14b8a6, transparent);
+  top: -150px;
+  left: -100px;
+  animation: blobFloat 8s ease-in-out infinite alternate;
+}
+
+.sb-2 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, #6366f1, transparent);
+  bottom: -100px;
+  right: -80px;
+  animation: blobFloat 10s ease-in-out infinite alternate-reverse;
+}
+
+.sb-3 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, #0ea5e9, transparent);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: blobFloat 6s ease-in-out infinite alternate;
+}
+
+@keyframes blobFloat {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(20px, 20px) scale(1.08); }
+}
+
+/* Content */
+.splash-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 40px;
+  text-align: center;
+}
+
+/* Logo */
+.splash-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.splash-logo-ring {
+  width: 88px;
+  height: 88px;
+  border-radius: 28px;
+  background: linear-gradient(135deg, #0f766e, #6366f1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.1),
+    0 20px 60px rgba(20, 184, 166, 0.35),
+    0 0 80px rgba(99, 102, 241, 0.2);
+}
+
+.splash-logo span {
+  font-size: 32px;
+  font-weight: 900;
+  color: white;
+  letter-spacing: -0.04em;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Tagline */
+.splash-tagline {
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+
+/* Progress bar */
+.splash-progress-track {
+  width: 220px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.splash-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #14b8a6, #6366f1);
+  border-radius: 99px;
+}
+
+/* Tips */
+.splash-tip {
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.splash-tip span {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.45);
+  white-space: nowrap;
+}
+
+/* Version */
+.splash-version {
+  position: absolute;
+  bottom: 28px;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.05em;
+}

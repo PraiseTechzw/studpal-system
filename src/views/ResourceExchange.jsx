@@ -4,6 +4,8 @@ import { Store, Tag, Search, Download, Star, Filter, MessageSquare, TrendingUp, 
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../utils/supabaseClient';
 import { useAuth } from '../hooks/useAuth';
+import toast from 'react-hot-toast';
+import { SkCardGrid } from '../components/Skeleton';
 import './ResourceExchange.css';
 
 const ResourceExchange = () => {
@@ -70,8 +72,9 @@ const ResourceExchange = () => {
       setNewItem({ title: '', price: 'Free', description: '' });
       setResourceFile(null);
       fetchItems();
+      toast.success('Resource listed successfully! 🛒');
     } catch (err) {
-      alert("Error listing resource: " + err.message);
+      toast.error('Error listing resource: ' + err.message);
     } finally {
       setLoading(false);
     }
@@ -79,7 +82,7 @@ const ResourceExchange = () => {
 
   const downloadResource = async (item) => {
     if (!item.file_path) {
-      alert("This resource has no downloadable file.");
+      toast('This resource has no downloadable file.', { icon: 'ℹ️' });
       return;
     }
     try {
@@ -97,8 +100,9 @@ const ResourceExchange = () => {
       
       // Update download count
       await supabase.from('market_items').update({ downloads: (item.downloads || 0) + 1 }).eq('id', item.id);
+      toast.success('Download started! 📥');
     } catch (err) {
-      alert("Error downloading resource: " + err.message);
+      toast.error('Error downloading resource: ' + err.message);
     }
   };
 
@@ -129,7 +133,7 @@ const ResourceExchange = () => {
             </div>
             
             {loading ? (
-              <div className="flex-center-p"><Loader2 className="animate-spin" /></div>
+              <div style={{ padding: '24px 0' }}><SkCardGrid count={6} /></div>
             ) : (
               <div className="trending-grid">
                 <AnimatePresence>

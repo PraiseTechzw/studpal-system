@@ -2,8 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '../../utils/supabaseClient';
 import { useAuth } from '../../hooks/useAuth';
+import toast from 'react-hot-toast';
 import { MessageSquare, Users, BookOpen, Clock, Settings, ArrowLeft, Loader2, Send, CheckCircle, UploadCloud, FileText, Video, Plus } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { SkPageContent } from '../../components/Skeleton';
 import './GroupWorkspace.css';
 
 const GroupWorkspace = () => {
@@ -187,9 +189,10 @@ const GroupWorkspace = () => {
       if (dbError) throw dbError;
       
       fetchResources(); // Refresh list
+      toast.success('File uploaded to group! 📂');
     } catch (error) {
       console.error("Error uploading file:", error.message);
-      alert("Error uploading file: " + error.message);
+      toast.error('Error uploading file: ' + error.message);
     } finally {
       setUploadingFile(false);
     }
@@ -205,12 +208,13 @@ const GroupWorkspace = () => {
       a.download = title;
       a.click();
       URL.revokeObjectURL(url);
+      toast.success('Download started!');
     } catch (err) {
-      alert("Error downloading file: " + err.message);
+      toast.error('Error downloading file: ' + err.message);
     }
   };
 
-  if (loading) return <div className="view-container flex-center-p"><Loader2 className="animate-spin" size={40} color="var(--accent-teal)" /></div>;
+  if (loading) return <div className="view-container"><SkPageContent variant="cards" /></div>;
   if (!group) return null;
 
   return (

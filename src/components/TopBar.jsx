@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { Search, Bell, Sun, Menu, Moon, Command, LogOut } from 'lucide-react';
 import { useSidebar } from '../hooks/useSidebar';
 import { useAuth } from '../hooks/useAuth';
@@ -6,7 +7,7 @@ import './TopBar.css';
 const TopBar = () => {
   const { isCollapsed, toggleSidebar } = useSidebar();
   const { user, signOut } = useAuth();
-  const [isDark, setIsDark] = React.useState(false);
+  const [isDark, setIsDark] = useState(false);
 
   const userName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || "User";
   const initials = userName.split(' ').map(n => n[0]).join('').toUpperCase();

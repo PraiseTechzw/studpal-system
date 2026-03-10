@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight, Plus, Calendar as CalIcon, Search, Clock, Tr
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../utils/supabaseClient';
 import { useAuth } from '../hooks/useAuth';
+import toast from 'react-hot-toast';
 import './Calendar.css';
 
 const Calendar = () => {
@@ -63,8 +64,9 @@ const Calendar = () => {
       setShowAddModal(false);
       setNewEvent({ title: '', type: 'Class', startTime: '', description: '' });
       fetchEvents();
+      toast.success('Event added to calendar! 📅');
     } catch (err) {
-      alert("Error adding event: " + err.message);
+      toast.error('Error adding event: ' + err.message);
     }
   };
 
@@ -77,8 +79,9 @@ const Calendar = () => {
 
       if (error) throw error;
       setEvents(events.filter(e => e.id !== id));
+      toast.success('Event removed.');
     } catch (err) {
-      alert("Error deleting event: " + err.message);
+      toast.error('Error deleting event: ' + err.message);
     }
   };
 

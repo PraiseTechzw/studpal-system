@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../utils/supabaseClient';
 import { useAuth } from '../hooks/useAuth';
+import toast from 'react-hot-toast';
+import { SkCardGrid } from '../components/Skeleton';
 import './TextNotes.css';
 
 const TextNotes = () => {
@@ -44,8 +46,9 @@ const TextNotes = () => {
 
       if (error) throw error;
       setNotes(notes.filter(note => note.id !== id));
+      toast.success('Note deleted.');
     } catch (err) {
-      alert("Failed to delete note: " + err.message);
+      toast.error('Failed to delete note: ' + err.message);
     }
   };
 
@@ -65,8 +68,8 @@ const TextNotes = () => {
       />
 
       {loading ? (
-        <div className="flex-center-full">
-          <Loader2 size={40} className="animate-spin" color="var(--accent-teal)" />
+        <div style={{ padding: '24px 0' }}>
+          <SkCardGrid count={8} />
         </div>
       ) : (
         <div className="notes-grid">
