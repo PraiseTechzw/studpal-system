@@ -15,39 +15,42 @@
   -moz-osx-font-smoothing: grayscale;
 
   /* Color Palette */
-  --bg-main: #f8fafb;
+  --bg-main: #f4f7f9;
   --bg-card: #ffffff;
   --bg-sidebar: #ffffff;
   
-  --text-primary: #1a1a1a;
-  --text-secondary: #64748b;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
   --text-tertiary: #94a3b8;
   --text-white: #ffffff;
 
-  --accent-teal: #14b8a6;
-  --accent-teal-hover: #0d9488;
+  --accent-teal: #0d9488;
+  --accent-teal-hover: #0f766e;
   --accent-emerald: #10b981;
-  --accent-red: #ef4444;
+  --accent-red: #f43f5e;
+  --accent-blue: #3b82f6;
 
   --border-light: #f1f5f9;
-  --border-sidebar: #edf2f7;
+  --border-sidebar: #e2e8f0;
 
   /* Hero Gradient */
-  --hero-bg: radial-gradient(ellipse at bottom right, #2d5a57 0%, #0d1f1e 100%);
-  --hero-card-glass: rgba(255, 255, 255, 0.08);
-  --hero-card-border: rgba(255, 255, 255, 0.12);
+  --hero-bg: linear-gradient(135deg, #134e4a 0%, #064e3b 100%);
+  --hero-card-glass: rgba(255, 255, 255, 0.05);
+  --hero-card-border: rgba(255, 255, 255, 0.1);
 
   /* Radius */
+  --radius-2xl: 40px;
   --radius-xl: 32px;
   --radius-lg: 24px;
   --radius-md: 16px;
   --radius-sm: 8px;
 
   /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-card: 0 4px 20px -8px rgba(0,0,0,0.08);
+  --shadow-card: 0 20px 25px -5px rgb(0 0 0 / 0.05), 0 8px 10px -6px rgb(0 0 0 / 0.05);
+  --shadow-premium: 0 10px 40px -10px rgba(0,0,0,0.12);
 
   /* Transitions */
   --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
