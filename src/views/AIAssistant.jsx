@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../utils/supabaseClient';
 import { useAuth } from '../hooks/useAuth';
 import toast from 'react-hot-toast';
+import { SkChat } from '../components/Skeleton';
 import './AIAssistant.css';
 
 const AIAssistant = () => {
@@ -165,7 +166,7 @@ const AIAssistant = () => {
                 </motion.div>
               ))}
             </AnimatePresence>
-            {loading && <div className="flex-center-p"><Loader2 className="animate-spin" color="var(--accent-teal)" /></div>}
+            {loading && <div style={{ padding: '0px 24px' }}><SkChat count={3} /></div>}
           </div>
 
           <div className="chat-input-area">
