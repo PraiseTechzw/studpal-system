@@ -135,19 +135,31 @@
   gap: 12px;
 }
 
+.empty-icon-ring {
+  width: 80px;
+  height: 80px;
+  background: #f1f5f9;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  margin-bottom: 16px;
+  border: 1px solid #e2e8f0;
+}
+
 .empty-state p {
-  color: var(--text-secondary);
-  font-size: 16px;
-  font-weight: 500;
+  color: var(--text-primary);
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 4px;
 }
 
 .add-text {
   font-size: 14px;
-  font-weight: 600;
-  color: var(--accent-teal);
-  padding: 8px 16px;
-  background: #f0fdfa;
-  border-radius: 99px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  opacity: 0.8;
 }
 
 /* Responsive */

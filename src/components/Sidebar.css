@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
+  overflow-x: hidden;
 }
 
 .nav-section {
@@ -13,39 +14,43 @@
 .nav-section-title {
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   color: var(--text-tertiary);
   margin-left: 12px;
+  text-transform: uppercase;
 }
 
 .nav-list {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .nav-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
-  border-radius: var(--radius-sm);
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: 12px;
   color: var(--text-secondary);
   font-size: 14px;
   font-weight: 500;
   position: relative;
-  transition: all var(--transition-fast);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
 }
 
 .nav-item:hover {
-  background-color: var(--bg-main);
+  background-color: #f1f5f9;
   color: var(--text-primary);
+  transform: translateX(4px);
 }
 
 .nav-item.active {
-  background-color: #f1f5f9;
-  color: var(--text-primary);
-  box-shadow: var(--shadow-sm);
+  background: white;
+  color: var(--accent-teal);
+  box-shadow: 0 4px 20px -5px rgba(13, 148, 136, 0.2);
+  border: 1px solid #f1f5f9;
 }
 
 .nav-item.active::before {
@@ -55,31 +60,69 @@
   top: 50%;
   transform: translateY(-50%);
   width: 4px;
-  height: 16px;
+  height: 20px;
   background-color: var(--accent-teal);
-  border-radius: 0 4px 4px 0;
+  border-radius: 0 6px 6px 0;
+}
+
+.item-collapsed {
+  justify-content: center;
+  padding: 12px;
+  transform: none !important;
+}
+
+.item-collapsed:hover {
+  background-color: #f1f5f9;
 }
 
 .nav-item-icon {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 24px;
+  height: 24px;
 }
 
 .nav-item-badge {
   margin-left: auto;
   font-size: 10px;
-  padding: 2px 8px;
+  padding: 2px 10px;
   border-radius: 99px;
-  font-weight: 600;
-  background-color: #e2f2f1;
+  font-weight: 700;
+}
+
+.nav-item-badge.new {
+  background-color: #f0fdfa;
   color: var(--accent-teal);
+  border: 1px solid #ccfbf1;
+}
+
+.nav-item-badge.live {
+  background-color: #fef2f2;
+  color: var(--accent-red);
+  border: 1px solid #fee2e2;
 }
 
 .sidebar-toggle {
-  color: var(--text-secondary);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background-color: #f8fafc;
+  color: var(--text-tertiary);
+  border: 1px solid var(--border-sidebar);
 }
 
 .sidebar-toggle:hover {
   color: var(--text-primary);
+  background-color: white;
+  border-color: #94a3b8;
 }
+
+.sidebar.collapsed .sidebar-toggle {
+  display: none; /* Hide toggle from logo row when collapsed */
+}
+
+/* Add a floating toggle if collapsed? Maybe better just to keep it simple for now */
