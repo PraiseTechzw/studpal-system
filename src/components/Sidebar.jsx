@@ -1,7 +1,7 @@
 import React from 'react';
 import { 
   Home, FileText, BookOpen, Globe, Calendar, Hash, Users, 
-  Sparkles, Wand2, Store, Clock, ChevronLeft, Menu
+  Sparkles, Wand2, Store, Clock, ChevronLeft, Menu, Shield, BarChart2
 } from 'lucide-react';
 import { useSidebar } from '../hooks/useSidebar';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -31,6 +31,13 @@ const Sidebar = () => {
         { icon: <Sparkles size={22} />, label: "AI Assistant", path: "/ai-assistant", badge: "New" },
         { icon: <Wand2 size={22} />, label: "Smart Tools", path: "/smart-tools" },
         { icon: <Store size={22} />, label: "Resource Exchange", path: "/resource-exchange" },
+      ]
+    },
+    {
+      title: "ADMIN PORTAL",
+      items: [
+        { icon: <Shield size={22} />, label: "Admin Center", path: "/admin" },
+        { icon: <BarChart2 size={22} />, label: "System Analytics", path: "/admin" },
       ]
     },
     {

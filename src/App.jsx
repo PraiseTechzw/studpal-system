@@ -9,6 +9,7 @@ import WebLinks from './views/WebLinks';
 import Calendar from './views/Calendar';
 import Tags from './views/Tags';
 import StudyGroups from './views/StudyGroups';
+import AdminDashboard from './views/AdminDashboard';
 import AIAssistant from './views/AIAssistant';
 import SmartTools from './views/SmartTools';
 import ResourceExchange from './views/ResourceExchange';
@@ -53,6 +54,7 @@ function App() {
               <Route path="/smart-tools" element={<SmartTools />} />
               <Route path="/resource-exchange" element={<ResourceExchange />} />
               
+              <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/study-timer" element={<StudyTimer />} />
               <Route path="*" element={<Navigate to="/dashboard" replace />} />
             </Routes>
