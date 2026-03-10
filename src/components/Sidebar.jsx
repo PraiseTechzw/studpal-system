@@ -1,40 +1,42 @@
 import React from 'react';
 import { 
   Home, FileText, BookOpen, Globe, Calendar, Hash, Users, 
-  Sparkles, Wand2, Store, Clock, ChevronLeft, ChevronRight, Menu
+  Sparkles, Wand2, Store, Clock, ChevronLeft, Menu
 } from 'lucide-react';
 import { useSidebar } from '../hooks/useSidebar';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link, useLocation } from 'react-router-dom';
 import './Sidebar.css';
 
 const Sidebar = () => {
   const { isCollapsed, toggleSidebar } = useSidebar();
+  const location = useLocation();
 
   const sections = [
     {
       title: "RESOURCES",
       items: [
-        { icon: <Home size={22} />, label: "Dashboard", active: true },
-        { icon: <FileText size={22} />, label: "Text Notes" },
-        { icon: <BookOpen size={22} />, label: "PDF Documents" },
-        { icon: <Globe size={22} />, label: "Web Links" },
-        { icon: <Calendar size={22} />, label: "Calendar" },
-        { icon: <Hash size={22} />, label: "Tags" },
-        { icon: <Users size={22} />, label: "Study Groups" },
+        { icon: <Home size={22} />, label: "Dashboard", path: "/dashboard" },
+        { icon: <FileText size={22} />, label: "Text Notes", path: "/text-notes" },
+        { icon: <BookOpen size={22} />, label: "PDF Documents", path: "/pdf-documents" },
+        { icon: <Globe size={22} />, label: "Web Links", path: "/web-links" },
+        { icon: <Calendar size={22} />, label: "Calendar", path: "/calendar" },
+        { icon: <Hash size={22} />, label: "Tags", path: "/tags" },
+        { icon: <Users size={22} />, label: "Study Groups", path: "/study-groups" },
       ]
     },
     {
       title: "AI FEATURES",
       items: [
-        { icon: <Sparkles size={22} />, label: "AI Assistant", badge: "New" },
-        { icon: <Wand2 size={22} />, label: "Smart Tools" },
-        { icon: <Store size={22} />, label: "Resource Exchange" },
+        { icon: <Sparkles size={22} />, label: "AI Assistant", path: "/ai-assistant", badge: "New" },
+        { icon: <Wand2 size={22} />, label: "Smart Tools", path: "/smart-tools" },
+        { icon: <Store size={22} />, label: "Resource Exchange", path: "/resource-exchange" },
       ]
     },
     {
       title: "PRODUCTIVITY",
       items: [
-        { icon: <Clock size={22} />, label: "Study Timer", badge: "Live" },
+        { icon: <Clock size={22} />, label: "Study Timer", path: "/study-timer", badge: "Live" },
       ]
     }
   ];
@@ -42,7 +44,7 @@ const Sidebar = () => {
   return (
     <aside className={`sidebar ${isCollapsed ? 'collapsed' : ''}`}>
       <div className="sidebar-header">
-        <div className="logo">
+        <Link to="/dashboard" className="logo">
           <div className="logo-icon">
             <Sparkles size={20} fill="white" />
           </div>
@@ -56,7 +58,7 @@ const Sidebar = () => {
               StudPal
             </motion.span>
           )}
-        </div>
+        </Link>
         <button className="sidebar-toggle" onClick={toggleSidebar}>
           {isCollapsed ? <Menu size={20} /> : <ChevronLeft size={20} />}
         </button>
@@ -76,39 +78,41 @@ const Sidebar = () => {
               </motion.h3>
             )}
             <ul className="nav-list">
-              {section.items.map((item, i) => (
-                <li key={i}>
-                  <a 
-                    href="#" 
-                    className={`nav-item ${item.active ? 'active' : ''} ${isCollapsed ? 'item-collapsed' : ''}`}
-                    title={isCollapsed ? item.label : ''}
-                  >
-                    <span className="nav-item-icon">{item.icon}</span>
-                    {!isCollapsed && (
-                      <motion.span 
-                        className="nav-item-label"
-                        initial={{ opacity: 0, x: -5 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        {item.label}
-                      </motion.span>
-                    )}
-                    {!isCollapsed && item.badge && (
-                      <span className={`nav-item-badge ${item.badge.toLowerCase()}`}>
-                        {item.badge}
-                      </span>
-                    )}
-                  </a>
-                </li>
-              ))}
+              {section.items.map((item, i) => {
+                const isActive = location.pathname === item.path;
+                return (
+                  <li key={i}>
+                    <Link 
+                      to={item.path} 
+                      className={`nav-item ${isActive ? 'active' : ''} ${isCollapsed ? 'item-collapsed' : ''}`}
+                      title={isCollapsed ? item.label : ''}
+                    >
+                      <span className="nav-item-icon">{item.icon}</span>
+                      {!isCollapsed && (
+                        <motion.span 
+                          className="nav-item-label"
+                          initial={{ opacity: 0, x: -5 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          {item.label}
+                        </motion.span>
+                      )}
+                      {!isCollapsed && item.badge && (
+                        <span className={`nav-item-badge ${item.badge.toLowerCase()}`}>
+                          {item.badge}
+                        </span>
+                      )}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         ))}
       </nav>
 
       <div className="sidebar-footer">
-        {/* Can add user profile here or premium pill */}
       </div>
     </aside>
   );

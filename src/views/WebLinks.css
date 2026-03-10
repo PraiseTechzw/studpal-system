@@ -1,0 +1,138 @@
+.links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.link-card {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  border: 1px solid var(--border-sidebar);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+}
+
+.link-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--accent-teal);
+  box-shadow: var(--shadow-premium);
+}
+
+.link-card-body {
+  display: flex;
+  gap: 16px;
+}
+
+.link-icon-bg {
+  width: 56px;
+  height: 56px;
+  background-color: #f0fdfa;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.link-info h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.link-url {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  word-break: break-all;
+  margin-bottom: 12px;
+}
+
+.link-tags {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.link-tag {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 10px;
+  background-color: #f1f5f9;
+  color: var(--text-secondary);
+  border-radius: 99px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.link-date {
+  font-size: 10px;
+  color: var(--text-tertiary);
+}
+
+.link-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.link-btn-visit {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-teal);
+  transition: all 0.2s ease;
+}
+
+.link-btn-visit:hover {
+  color: var(--accent-teal-hover);
+  transform: translateX(2px);
+}
+
+.link-btn-delete {
+  color: var(--text-tertiary);
+  padding: 6px;
+  border-radius: 8px;
+}
+
+.link-btn-delete:hover {
+  color: var(--accent-red);
+  background-color: #fef2f2;
+}
+
+.link-card-add {
+  min-height: 200px;
+  border-radius: var(--radius-xl);
+  border: 2px dashed #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.link-card-add:hover {
+  border-color: var(--accent-teal);
+  background: white;
+  color: var(--accent-teal);
+  box-shadow: var(--shadow-sm);
+}
+
+.link-card-add span {
+  font-weight: 600;
+  font-size: 14px;
+}
